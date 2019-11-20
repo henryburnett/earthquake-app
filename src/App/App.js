@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
-import ReactMapboxGl, { Layer, Feature, Popup } from 'react-mapbox-gl'
+import ReactMapboxGl, { Layer, Feature, Popup, ZoomControl } from 'react-mapbox-gl'
+import styled from 'styled-components'
 import './App.css'
 
 export const App = () => {
@@ -26,30 +27,75 @@ export const App = () => {
   })
 
   const setData = (earthquake) => {
+    console.log({earthquake})
     const coordinates = earthquake.geometry.coordinates.slice(0,2)
+    const title = earthquake.properties.title
+    console.log({coordinates, title})
     setCoordinates(coordinates)
-    const description = earthquake.properties.title
-    setDescripton(description)
-    console.log({coordinates, description})
+    setDescripton(title)
   }
 
   return (
     <div className="App">
-      <Map
-        style="mapbox://styles/mapbox/satellite-streets-v10"
-        center={coordinates}
-        zoom={[6]}
-        containerStyle={{
-          height: '90vh',
-          width: '90vw'
-        }}>
-        <Popup
-          coordinates={coordinates}>
-          <h2>{description}</h2>
-          <h2>{coordinates[0]}, {coordinates[1]}</h2>
-        </Popup>
-      </Map>
+      <OptionsList>
+      {
+        (earthquakeData) ?
+          earthquakeData.map(earthquake => {
+            const title = earthquake.properties.title
+            console.log({title})
+            return (<ListItem
+                    key={title}
+                    onClick={() => setData(earthquake)}>
+                      {title}
+                    </ListItem>
+                    )
+          }) : null
+      }
+      </OptionsList>
+      <MapWrapper id="mapWrapper">
+        <Map
+          style="mapbox://styles/mapbox/satellite-streets-v10"
+          center={coordinates}
+          zoom={[6]}
+          containerStyle={{
+            height: '100vh',
+            width: '100vw'
+          }}>
+          <Popup
+            coordinates={coordinates}>
+            <h2>{description}</h2>
+            <h2>{coordinates[0]}, {coordinates[1]}</h2>
+          </Popup>
+
+          <ZoomControl/>
+        </Map>
+      </MapWrapper>
       {(earthquakeData) ? <button onClick={() => setData(earthquakeData[0])}>Button</button> : null}
     </div>
   )
 }
+
+
+const ListItem = styled.div`
+    height: 10vh;
+    width: 25vw;
+    background-color: blue;
+    border: 2px solid white;
+    font-size: 16px;
+    align-items: center;
+    justify-content: center;
+    color: white;
+`
+
+const OptionsList = styled.div`
+  position: absolute;
+  left: 0;
+  height: 100vh;
+  width: 25vw;
+  background-color: red;
+  z-index: 2;
+`
+
+const MapWrapper = styled.div`
+  z-index: 1;
+`
