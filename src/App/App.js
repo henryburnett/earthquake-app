@@ -117,8 +117,8 @@ const Header = styled.div`
   position: absolute;
   top: 0;
   width: 100%;
-  background-color: #0AB587;
-  color: black;
+  background-color: #08916A;
+  color: white;
   height: 12vh;
   font-size: 22px;
 `
