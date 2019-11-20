@@ -78,7 +78,7 @@ export const App = () => {
 const ListItem = styled.div`
     height: 8.5vh;
     width: 22vw;
-    background-color: #0AB587;
+    background-color: #08916A;
     border: 1px solid gray;
     font-size: 16px;
     align-items: center;
@@ -88,11 +88,11 @@ const ListItem = styled.div`
     cursor: pointer;
 
     &:hover {
-      background-color: #08916A;
+      background-color: #047253;
     }
 
     ${props => props.selected && css`
-        background-color: #08916A;
+        background-color: #047253;
       `}
 `
 
