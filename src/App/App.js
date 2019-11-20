@@ -27,16 +27,15 @@ export const App = () => {
   })
 
   const setData = (earthquake) => {
-    console.log({earthquake})
     const coordinates = earthquake.geometry.coordinates.slice(0,2)
     const title = earthquake.properties.title
-    console.log({coordinates, title})
     setCoordinates(coordinates)
     setDescripton(title)
   }
 
   return (
     <div className="App">
+      <Header><h2>Ten Strongest Earthquakes in the Last 24 Hours</h2></Header>
       <OptionsList>
       {
         (earthquakeData) ?
@@ -58,7 +57,7 @@ export const App = () => {
           center={coordinates}
           zoom={[6]}
           containerStyle={{
-            height: '100vh',
+            height: '88vh',
             width: '100vw'
           }}>
           <Popup
@@ -70,15 +69,14 @@ export const App = () => {
           <ZoomControl/>
         </Map>
       </MapWrapper>
-      {(earthquakeData) ? <button onClick={() => setData(earthquakeData[0])}>Button</button> : null}
     </div>
   )
 }
 
 
 const ListItem = styled.div`
-    height: 10vh;
-    width: 25vw;
+    height: 8.3vh;
+    width: 22vw;
     background-color: blue;
     border: 2px solid white;
     font-size: 16px;
@@ -89,13 +87,19 @@ const ListItem = styled.div`
 
 const OptionsList = styled.div`
   position: absolute;
+  bottom: 0;
   left: 0;
-  height: 100vh;
-  width: 25vw;
+  height: 88vh;
+  width: 22vw;
   background-color: red;
   z-index: 2;
 `
 
 const MapWrapper = styled.div`
   z-index: 1;
+`
+
+const Header = styled.div`
+  height: 12vh;
+  font-size: 22px;
 `
