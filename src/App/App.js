@@ -5,11 +5,11 @@ import './App.css'
 
 export const App = () => {
 
-  const [earthquakeData, setEarthquakeData] = useState([])
+  const [earthquakeData, setEarthquakeData] = useState(null)
   const [coordinates, setCoordinates] = useState([13.41, 52.52])
   const [description, setDescripton] = useState(null)
 
-  useEffect(() => {
+   useEffect(() => {
     const getEarthquakeData = async () => {
       const now = new Date()
       const yesterday = new Date(now.getTime() - (24*60*60*1000)).toISOString() // now minus one day
@@ -20,7 +20,7 @@ export const App = () => {
     }
     getEarthquakeData()
   }, []);
-
+ 
   const Map = ReactMapboxGl({
     accessToken: 'pk.eyJ1IjoiaGFidXJuNyIsImEiOiJjazM3bDhsajgwMGx0M25tbnV6cXlpMDViIn0.T1JDdvCjmfwGOtsW1xGIKw',
   })
@@ -47,7 +47,7 @@ export const App = () => {
                       {title}
                     </ListItem>
                     )
-          }) : null
+          }) : <ListItem>Loading...</ListItem>
       }
       </OptionsList>
       <MapWrapper id="mapWrapper">
