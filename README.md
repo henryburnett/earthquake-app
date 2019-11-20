@@ -6,8 +6,8 @@ Fetches earthquake data from the US Geological Survey and uses MapBox to display
 
 Clone the Git repository, navigate to the project directory and install required dependencies: 
 
-```cd earthquake-app
-   npm install```
+`cd earthquake-app` <br />
+`npm install`
 
 From the project directory, you can run:
 
@@ -23,8 +23,7 @@ The page will reload if you make edits.<br />
 Builds the app for production to the `build` folder and serves it at [http://localhost:5000](http://localhost:5000).<br />
 Alternatively, you can build and serve the production version in separate steps:
 
-`npm run build`
-<br />
+`npm run build` <br />
 `serve -s build`
 
 ## Reflection
