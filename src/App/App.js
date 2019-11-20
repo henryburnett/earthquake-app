@@ -8,14 +8,15 @@ export const App = () => {
 
   useEffect(() => {
     const getEarthquakeData = async () => {
-      const time = new Date()
-      const URL = `https://earthquake.usgs.gov/fdsnws/event/1/format=geojson&orderby=magnitude&starttime=${time}`
+      const now = new Date()
+      const yesterday = new Date(now.getTime() - (24*60*60*1000)).toISOString() // now minus one day
+      const URL = `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&orderby=magnitude&starttime=${yesterday}&limit=10`
       let response = await fetch(URL)
       let data = await response.json()
-      setEarthquakeData(data)
-      console.log({data})
+      setEarthquakeData(data.features)
+      console.log(data.features)
     }
-    getOptions()
+    getEarthquakeData()
   }, []);
 
   const Map = ReactMapboxGl({
