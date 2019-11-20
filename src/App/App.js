@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from 'react'
-import ReactMapboxGl, { Layer, Feature, Popup, ZoomControl } from 'react-mapbox-gl'
-import styled from 'styled-components'
+import ReactMapboxGl, { Popup, ZoomControl } from 'react-mapbox-gl'
+import styled, {css} from 'styled-components'
 import './App.css'
 
 export const App = () => {
 
   const [earthquakeData, setEarthquakeData] = useState([])
   const [coordinates, setCoordinates] = useState([13.41, 52.52])
-  const [description, setDescripton] = useState("")
+  const [description, setDescripton] = useState(null)
 
   useEffect(() => {
     const getEarthquakeData = async () => {
@@ -17,7 +17,6 @@ export const App = () => {
       let response = await fetch(URL)
       let data = await response.json()
       setEarthquakeData(data.features)
-      console.log(data.features)
     }
     getEarthquakeData()
   }, []);
@@ -41,9 +40,9 @@ export const App = () => {
         (earthquakeData) ?
           earthquakeData.map(earthquake => {
             const title = earthquake.properties.title
-            console.log({title})
             return (<ListItem
                     key={title}
+                    selected={description === title}
                     onClick={() => setData(earthquake)}>
                       {title}
                     </ListItem>
@@ -58,13 +57,15 @@ export const App = () => {
           zoom={[6]}
           containerStyle={{
             height: '88vh',
-            width: '100vw'
+            width: '78vw'
           }}>
+          {(description) ? 
           <Popup
+            style={{opacity: 0.8}}
             coordinates={coordinates}>
             <h2>{description}</h2>
-            <h2>{coordinates[0]}, {coordinates[1]}</h2>
-          </Popup>
+            <h2>Coordinates: <i>{coordinates[0]}, {coordinates[1]}</i></h2>
+          </Popup> : null}
 
           <ZoomControl/>
         </Map>
@@ -75,14 +76,24 @@ export const App = () => {
 
 
 const ListItem = styled.div`
-    height: 8.3vh;
+    height: 8.5vh;
     width: 22vw;
-    background-color: blue;
-    border: 2px solid white;
+    background-color: #0AB587;
+    border: 1px solid gray;
     font-size: 16px;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: black;
+    border-radius: 2px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #08916A;
+    }
+
+    ${props => props.selected && css`
+        background-color: #08916A;
+      `}
 `
 
 const OptionsList = styled.div`
@@ -91,15 +102,23 @@ const OptionsList = styled.div`
   left: 0;
   height: 88vh;
   width: 22vw;
-  background-color: red;
+  border-radius: 2px;
   z-index: 2;
 `
 
 const MapWrapper = styled.div`
+  position: absolute;
+  right: 0;
+  bottom: 0;
   z-index: 1;
 `
 
 const Header = styled.div`
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background-color: #0AB587;
+  color: black;
   height: 12vh;
   font-size: 22px;
 `
